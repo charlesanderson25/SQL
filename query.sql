@@ -1,3 +1,5 @@
+/* Fokus.db */
+
 /*
 Usando o LIKE
 */
@@ -66,3 +68,17 @@ Função length, conta quantidade de caracteres
 
 SELECT *, LENGTH(CPF)
 FROM Colaboradores;
+
+/*
+Case When
+*/
+
+SELECT * from HistoricoEmprego;
+
+SELECT *, 
+       CASE 
+       WHEN salario < 3000 THEN 'BAIXO'
+       WHEN salario BETWEEN 3000 AND 6000 THEN 'MEDIO'
+       ELSE 'ALTO'
+       END AS NIVEL_SALARIO
+FROM HistoricoEmprego;

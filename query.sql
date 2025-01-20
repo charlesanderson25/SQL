@@ -82,3 +82,17 @@ SELECT *,
        ELSE 'ALTO'
        END AS NIVEL_SALARIO
 FROM HistoricoEmprego;
+
+/*
+Uso do DEFAULT na criação de uma coluna em uma nova tabela
+Trata-se de um valor padrão a ser inserido caso o campo não seja preenchido
+*/
+
+CREATE TABLE clientes (
+       id TEXT NOT NULL,
+       nome VARCHAR(255),
+       telefone VARCHAR(50),
+       email VARCHAR(100) DEFAULT 'Sem email',
+       endereco VARCHAR(255),
+       PRIMARY KEY (id)
+)

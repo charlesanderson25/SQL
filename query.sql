@@ -190,3 +190,44 @@ FROM ALURA.tb_clientes
 SELECT * 
 FROM ALURA.tb_clientes
 WHERE ID IN (SELECT IDCLIENTE FROM ALURA.tb_pedidos WHERE DATE_FORMAT(tb_pedidos.DATAHORAPEDIDO, '%d') = '02');
+
+-- Subconsultas com Having
+
+SELECT AVG(PRECO)
+FROM ALURA.tb_produtos;
+
+-- Produtos com preço maior que a média
+
+SELECT NOME, PRECO
+FROM ALURA.tb_produtos
+HAVING PRECO > ( 
+	SELECT AVG(PRECO)
+	FROM ALURA.tb_produtos );
+	
+SELECT * 
+FROM ALURA.tb_clientes;
+
+SELECT * 
+FROM ALURA.tb_PEDIDOS;
+
+SELECT * 
+FROM ALURA.tb_clientes T1
+INNER JOIN ALURA.tb_pedidos T2
+ON T1.ID = T2.IDCLIENTE
+ORDER BY T1.ID
+;
+
+SELECT *
+FROM ALURA.tb_produtos;
+
+SELECT *
+FROM ALURA.tb_itenspedidos T1
+RIGHT JOIN ALURA.tb_produtos T2
+ON T1.IDPRODUTO = T2.ID
+;
+
+INSERT INTO alura.tb_produtos (ID, NOME, DESCRICAO, PRECO, CATEGORIA) VALUES
+(31, 'Lasanha à bolonhesa', 'Deliciosa lasanha caseira com molho bolonhesa', 12.50, 'Almoço');
+
+SELECT * 
+FROM ALURA.tb_pedidos

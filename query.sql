@@ -231,3 +231,48 @@ INSERT INTO alura.tb_produtos (ID, NOME, DESCRICAO, PRECO, CATEGORIA) VALUES
 
 SELECT * 
 FROM ALURA.tb_pedidos
+
+-- 25 JANEIRO DE 2025
+
+SELECT * 
+FROM ALURA.tb_pedidos t1
+WHERE t1.IDCLIENTE = 26;
+
+SELECT *
+FROM ALURA.tb_clientes;
+
+INSERT INTO alura.tb_clientes (ID, NOME, TELEFONE, EMAIL, ENDERECO) VALUES
+(28, 'João Santos', 11982331313, 'joao.santos123@gmail.com', 'CNB12, LT 23, Taguatinga Norte');
+
+-- LEFT JOIN
+
+SELECT *
+FROM ALURA.tb_clientes t1
+LEFT JOIN ALURA.tb_pedidos t2
+	ON t1.ID = t2.IDCLIENTE;
+	
+SELECT * 
+FROM ALURA.tb_pedidos t1
+ORDER BY ID;
+
+SELECT *
+FROM ALURA.tb_itenspedidos;
+
+SELECT *
+FROM ALURA.tb_produtos;
+
+SELECT SUM(PRECOUNITARIO) AS VALOR_TOTAL_PEDIDOS
+FROM ALURA.tb_itenspedidos;
+
+SELECT t1.IDPEDIDO,
+		 t1.IDPRODUTO,
+		 t1.QUANTIDADE,
+		 t1.PRECOUNITARIO, 
+		 t2.NOME,
+		 t2.PRECO AS t2_PRECO,
+       SUM(t1.PRECOUNITARIO) AS VALOR_TOTAL_PEDIDO
+FROM ALURA.tb_itenspedidos t1
+INNER JOIN ALURA.tb_produtos t2
+	ON t1.IDPRODUTO = t2.ID
+GROUP BY t1.IDPEDIDO
+;

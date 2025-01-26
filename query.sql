@@ -432,3 +432,30 @@ FLUSH PRIVILEGES;
 
 SHOW TRIGGERS FROM alura;
 
+-- 26/01/2025
+
+-- UTILIZANDO BLOCO DE TRANSACTION
+
+-- Desativar autocommit
+
+SET AUTOCOMMIT = 0;
+
+START TRANSACTION;
+
+SELECT *
+FROM ALURA.tb_clientes;
+
+INSERT INTO ALURA.tb_clientes (tb_clientes.ID, tb_clientes.NOME, tb_clientes.TELEFONE, tb_clientes.EMAIL, tb_clientes.ENDERECO)
+VALUES (29, 'Jade Santana', '984546465', 'jade@gmail.com', 'CNB 12, LT22')
+
+-- Desfazer a transação
+
+ROLLBACK;
+
+-- Confirmar transação
+
+COMMIT;
+
+-- Retornar ao modo autocommit
+
+SET AUTOCOMMIT = 1;

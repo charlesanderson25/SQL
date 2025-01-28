@@ -58,3 +58,24 @@ comentario TEXT,
 FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id),
 FOREIGN KEY (hospedagem_id) REFERENCES hospedagens(hospedagem_id)
 );
+
+SELECT * FROM
+enderecos;
+
+SELECT * 
+FROM clientes
+ORDER BY CLIENTE_ID;
+
+SELECT * 
+FROM proprietarios
+ORDER BY PROPRIETARIO_ID;
+
+SELECT * 
+FROM hospedagens
+ORDER BY HOSPEDAGEM_ID;
+
+SELECT * 
+FROM alugueis;
+
+SELECT * 
+FROM avaliacoes;

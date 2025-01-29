@@ -79,3 +79,24 @@ FROM alugueis;
 
 SELECT * 
 FROM avaliacoes;
+
+-- 29/01/2025
+
+SELECT *
+FROM hospedagens;
+
+SELECT *
+FROM avaliacoes;
+
+SELECT T2.hospedagem_id,
+		 T2.tipo,
+		 T1.avaliacao_id,
+		 T1.nota,
+		 T1.comentario
+FROM avaliacoes T1
+LEFT JOIN hospedagens T2
+	ON T1.hospedagem_id = T2.hospedagem_id
+WHERE T1.nota >= 4;
+
+SELECT *
+FROM alugueis;

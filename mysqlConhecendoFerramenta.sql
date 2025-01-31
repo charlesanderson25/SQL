@@ -100,3 +100,22 @@ WHERE T1.nota >= 4;
 
 SELECT *
 FROM alugueis;
+
+#------------------------------------------------------#
+
+# 31/01/2025
+
+ALTER TABLE proprietarios
+ADD COLUMN qtd_hospedagens INT;
+
+SELECT *
+FROM proprietarios;
+
+ALTER TABLE alugueis
+RENAME TO reservas;
+
+SELECT *
+FROM reservas;
+
+ALTER TABLE reservas 
+CHANGE COLUMN aluguel_id reserva_id INT;

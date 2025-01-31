@@ -119,3 +119,44 @@ FROM reservas;
 
 ALTER TABLE reservas 
 CHANGE COLUMN aluguel_id reserva_id INT;
+
+SELECT *
+FROM hospedagens;
+
+SHOW CREATE TABLE hospedagens;
+
+UPDATE hospedagens t1
+SET ativo = 1
+WHERE t1.hospedagem_id IN ('1', '10', '100');
+
+SELECT *
+FROM hospedagens t1
+WHERE t1.hospedagem_id IN ('1', '10', '100');
+
+SELECT *
+FROM proprietarios
+WHERE proprietarios.proprietario_id = '1009';
+
+UPDATE proprietarios
+SET contato = 'daniela_120@hotmail.com'
+WHERE proprietarios.proprietario_id = '1009';
+
+SELECT *
+FROM avaliacoes
+WHERE avaliacoes.hospedagem_id IN ('10000', '1001');
+
+DELETE FROM avaliacoes
+WHERE avaliacoes.hospedagem_id IN ('10000', '1001');
+
+SELECT *
+FROM hospedagens
+WHERE hospedagens.hospedagem_id IN ('10000', '1001');
+
+DELETE FROM hospedagens
+WHERE hospedagens.hospedagem_id IN ('10000', '1001');
+
+SELECT * FROM reservas
+WHERE reservas.hospedagem_id IN ('10000', '1001');
+
+DELETE FROM reservas
+0WHERE reservas.hospedagem_id IN ('10000', '1001');

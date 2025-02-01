@@ -221,3 +221,61 @@ FROM alugueis
 WHERE aluguel_id IN (10002, 10003);
 
 CALL alura1.pc_novo_aluguel_1(10003, '1004', '8635', '2025-03-10', '2025-03-12', 250);
+
+-- ------------------------------------------------------------------------------------------------
+
+DROP PROCEDURE if EXISTS pc_novo_aluguel_2;
+
+delimiter $$
+
+USE alura1 $$
+
+CREATE PROCEDURE pc_novo_aluguel_2(
+	vAluguel    INT(11),
+	vCliente    VARCHAR(10),
+	vHospedagem VARCHAR(10),
+	vDataInicio DATE,
+	vDataFinal  DATE,
+	vPrecoUnitario DECIMAL(10,2)
+)
+
+BEGIN 
+	
+	DECLARE vDias INT(11) DEFAULT 0;
+	DECLARE vPrecoTotal DECIMAL(10,2);
+	SET vDias = (SELECT DATEDIFF(vDataFinal, vDataInicio));
+	SET vPrecoTotal = vDias * vPrecoUnitario;
+	
+	INSERT INTO alugueis VALUES(vAluguel,
+							 vCliente,
+							 vHospedagem,
+		   				 vDataInicio,
+							 vDataFinal,
+							 vPrecoTotal);
+
+END $$
+
+delimiter ;
+
+-- ------------------------------------------------------
+
+CALL alura1.pc_novo_aluguel_1(10002, '1003', '8635', '2025-03-06', '2025-03-10', 600);
+
+SELECT * 
+FROM alugueis
+WHERE aluguel_id IN (10002, 10003);
+
+CALL alura1.pc_novo_aluguel_1(10003, '1004', '8635', '2025-03-10', '2025-03-12', 250);
+
+-- ------------------------------------------------------
+
+SELECT DATEDIFF('2025-01-25', '2025-01-20') AS diferenca_dias;
+
+SELECT * 
+FROM alugueis;
+
+CALL pc_novo_aluguel_2(10004, '1004', '8635', '2025-03-13', '2025-03-16', 40);
+
+SELECT * 
+FROM alugueis t1
+WHERE t1.aluguel_id = 10004 ;

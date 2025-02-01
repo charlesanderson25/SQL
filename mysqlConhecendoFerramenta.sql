@@ -160,3 +160,108 @@ WHERE reservas.hospedagem_id IN ('10000', '1001');
 
 DELETE FROM reservas
 0WHERE reservas.hospedagem_id IN ('10000', '1001');
+
+#-----------------------------------------------------------------------------------------#
+
+-- 01/02/2025
+
+SHOW CREATE DATABASE alura1;
+
+CREATE DATABASE alura2; /*!40100 DEFAULT CHARACTER SET latin1 */
+
+USE alura2;
+
+SELECT *
+FROM alura2.tabelaclienteconta;
+
+SELECT *
+FROM alura2.tabelaclientes;
+
+SELECT *
+FROM alura2.tabelacolaboradores;
+
+SELECT *
+FROM alura2.tabelaconta;
+
+SELECT *
+FROM alura2.tabeladepartamento;
+
+SELECT *
+FROM alura2.tabelaemprestimo;
+
+SELECT *
+FROM alura2.tabelapagamentos;
+
+SELECT *
+FROM alura2.tabelascorecredito;
+
+SELECT *
+FROM alura2.tabelatelefones;
+
+-- valor total emprestimos
+
+SELECT SUM(Valor) AS Valor_Total_Emprestimos
+FROM tabelaemprestimo;
+
+-- media salario colaboradoes
+
+SELECT AVG(salario) AS MediaSalario
+FROM tabelacolaboradores;
+
+-- maior valor emoprestimo
+
+SELECT MAX(Valor)
+FROM tabelaemprestimo;
+
+-- menor valor emprestimo
+
+SELECT MIN(Valor)
+FROM tabelaemprestimo;
+
+# quantidade colaboradores
+
+SELECT COUNT(t1.id_colaborador)
+from tabelacolaboradores t1;
+
+-- media valores emprestados
+
+SELECT SUM(Valor) / COUNT(id_emprestimo)
+FROM tabelaemprestimo;
+
+SELECT *
+FROM alura2.tabelacolaboradores;
+
+SELECT *
+FROM alura2.tabeladepartamento;
+
+-- salarios por departamento
+
+SELECT t1.id_departamento,
+		 t1.NomeDepartamento,
+		 t2.Salario
+FROM tabeladepartamento t1 
+INNER JOIN tabelacolaboradores t2
+	ON t1.id_departamento = t2.id_departamento;
+
+-- valor total emprestimo maior 20.000
+	
+SELECT *
+FROM tabelaemprestimo t1
+WHERE t1.Valor > 20000
+ORDER BY t1.Valor ASC;
+
+-- Qual é o total de valores concedidos e a quantidade de empréstimos firmados por tipo de empréstimo?
+
+SELECT t1.Tipo,
+		 t1.Valor AS TotalValor,
+		 COUNT(t1.Tipo) AS Qtd_Emprestimos
+from tabelaemprestimo t1
+GROUP BY t1.Tipo;
+
+-- Qual é o total, a média, o maior e o menor valor dos empréstimos concedidos?
+
+SELECT SUM(t1.Valor) AS TotalEmprestimos,
+		 AVG(t1.Valor) AS MediaEmprestimos,
+		 MAX(t1.Valor) AS MaiorEmprestimo,
+		 MIN(t1.Valor) AS MenorEmprestimo
+FROM tabelaemprestimo t1;

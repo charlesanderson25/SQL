@@ -279,3 +279,71 @@ CALL pc_novo_aluguel_2(10004, '1004', '8635', '2025-03-13', '2025-03-16', 40);
 SELECT * 
 FROM alugueis t1
 WHERE t1.aluguel_id = 10004 ;
+
+#---------------------------------------------#
+-- TRATAMENTO DE ERROS NA PROCEDURE          --
+#---------------------------------------------#
+
+DROP PROCEDURE if EXISTS pc_novo_aluguel_3;
+
+delimiter $$
+
+USE alura1 $$
+
+CREATE PROCEDURE pc_novo_aluguel_3(
+	vAluguel    INT(11),
+	vCliente    VARCHAR(10),
+	vHospedagem VARCHAR(10),
+	vDataInicio DATE,
+	vDataFinal  DATE,
+	vPrecoUnitario DECIMAL(10,2)
+)
+
+BEGIN 
+	
+	DECLARE vDias INT(11) DEFAULT 0;
+	DECLARE vPrecoTotal DECIMAL(10,2);
+	DECLARE vMensagem VARCHAR(100);
+	
+		-- Se der o erro 1452 no INSERT INTO o código abaixo será executado com a mensagem de erro
+
+		DECLARE exit handler FOR 1452 -- 1452 é um tipo de erro do MySQL
+		
+		BEGIN
+			SET vMensagem = 'Problema de chave estrangeira associado a alguma entidade da base';
+			SELECT vMensagem;
+	   END; 		
+	   
+	   -- fim do código de erro 
+	
+	SET vDias = (SELECT DATEDIFF(vDataFinal, vDataInicio));
+	SET vPrecoTotal = vDias * vPrecoUnitario;
+	
+	INSERT INTO alugueis VALUES(vAluguel,
+							 vCliente,
+							 vHospedagem,
+		   				 vDataInicio,
+							 vDataFinal,
+							 vPrecoTotal);
+	
+	-- Se o INSERT INTO for executado com sucesso, a mensagem abaixo será exibida
+							 
+	SET vMensagem = 'Aluguel incluído com sucesso!';
+	SELECT vMensagem;
+
+END $$
+
+delimiter ;
+
+-- ------------------------------------------------------
+
+CALL pc_novo_aluguel_3(10005, '10001', '8635', '2025-03-17', '2025-03-15', 40);
+CALL pc_novo_aluguel_3(10005, '1004', '8635', '2025-03-17', '2025-03-25', 40);
+
+DELETE 
+FROM alugueis
+WHERE alugueis.aluguel_id = 10005;
+
+SELECT *
+FROM alugueis
+WHERE aluguel_id = 10005;

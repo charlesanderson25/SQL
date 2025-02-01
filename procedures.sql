@@ -181,3 +181,43 @@ CALL alura1.pc_novo_aluguel;
 SHOW CREATE TABLE alugueis;
 
 CALL alura1.pc_novo_aluguel;
+
+-- ---------------------------------------------------------------------------------
+
+DROP PROCEDURE if EXISTS pc_novo_aluguel_1;
+
+delimiter $$
+
+USE alura1 $$
+
+CREATE PROCEDURE pc_novo_aluguel_1(
+	vAluguel    INT(11),
+	vCliente    VARCHAR(10),
+	vHospedagem VARCHAR(10),
+	vDataInicio DATE,
+	vDataFinal  DATE,
+	vPrecoTotal DECIMAL(10,2)
+)
+
+BEGIN 
+
+	INSERT INTO alugueis VALUES(vAluguel,
+							 vCliente,
+							 vHospedagem,
+		   				 vDataInicio,
+							 vDataFinal,
+							 vPrecoTotal);
+
+END $$
+
+delimiter ;
+
+-- ------------------------------------------------------
+
+CALL alura1.pc_novo_aluguel_1(10002, '1003', '8635', '2025-03-06', '2025-03-10', 600);
+
+SELECT * 
+FROM alugueis
+WHERE aluguel_id IN (10002, 10003);
+
+CALL alura1.pc_novo_aluguel_1(10003, '1004', '8635', '2025-03-10', '2025-03-12', 250);

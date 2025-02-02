@@ -502,3 +502,83 @@ SELECT *
 FROM clientes
 WHERE nome = 'Júlia Pires';
 
+#---------------------------------------------#
+-- Nova PROCEDURE                            --
+#---------------------------------------------#
+
+DROP PROCEDURE if EXISTS pc_novo_aluguel_6;
+
+delimiter $$
+
+USE alura1 $$
+
+CREATE PROCEDURE pc_novo_aluguel_6(
+	vAluguel       INT(11),
+	vClienteNome   VARCHAR(150),
+	vHospedagem    VARCHAR(10),
+	vDataInicio    DATE,
+	vDataFinal     DATE,
+	vPrecoUnitario DECIMAL(10,2)
+)
+
+BEGIN 
+
+	DECLARE vNumCliente INTEGER;	
+	DECLARE vCliente VARCHAR(10);
+	DECLARE vDias INT(11) DEFAULT 0;
+	DECLARE vPrecoTotal DECIMAL(10,2);
+	DECLARE vMensagem VARCHAR(100);
+	
+		-- Se der o erro 1452 no INSERT INTO o código abaixo será executado com a mensagem de erro
+
+		DECLARE exit handler FOR 1452 -- 1452 é um tipo de erro do MySQL
+		
+		BEGIN
+			SET vMensagem = 'Problema de chave estrangeira associado a alguma entidade da base';
+			SELECT vMensagem;
+	   END; 		
+	   
+	   -- fim do código de erro 
+	
+	SET vNumCliente = (SELECT COUNT(*) FROM clientes WHERE nome = vClienteNome);
+		IF vNumCliente > 1 THEN
+			SET vMensagem = 'Esse cliente não pode ser usado para incluir o aluguel pelo nome.';
+			SELECT vMensagem; 
+			
+			ELSEIF vNumCliente = 0 THEN
+				SET vMensagem = 'Cliente inexistente, não pode ser utilizado na inclusão de um novo aluguel.';
+				SELECT vMensagem; 
+		ELSE
+		
+			SET vDias = (SELECT DATEDIFF(vDataFinal, vDataInicio));
+			SET vPrecoTotal = vDias * vPrecoUnitario;
+		
+			-- recebe o nome do cliente via parametro e atualiza o cliente_id atraves da consulta abaixo
+			SELECT cliente_id 
+				INTO vCliente 
+				FROM clientes 
+				WHERE nome = vClienteNome;
+			
+			INSERT INTO alugueis VALUES(vAluguel,
+									 vCliente,
+									 vHospedagem,
+				   				 vDataInicio,
+									 vDataFinal,
+									 vPrecoTotal);
+			
+			-- Se o INSERT INTO for executado com sucesso, a mensagem abaixo será exibida
+									 
+			SET vMensagem = 'Aluguel incluído com sucesso!';
+			SELECT vMensagem;
+		
+		END if;
+
+END $$
+
+delimiter ;
+
+-- ------------------------------------------------------
+
+USE alura1;
+
+CALL pc_novo_aluguel_6(10007, 'Charles Anderson Oliveira', '8635', '2025-03-30', '2025-04-04', 40);

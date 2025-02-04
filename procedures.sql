@@ -582,3 +582,5 @@ delimiter ;
 USE alura1;
 
 CALL pc_novo_aluguel_6(10007, 'Charles Anderson Oliveira', '8635', '2025-03-30', '2025-04-04', 40);
+
+SELECT '2025-01-31' + INTERVAL 5 DAY;
